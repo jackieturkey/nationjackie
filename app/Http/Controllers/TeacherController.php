@@ -10,6 +10,6 @@ class TeacherController extends Controller
 {
     public function index()
     {
-        return 'no';
+        return view('info');
     }
 }

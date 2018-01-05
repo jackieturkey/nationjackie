@@ -7,8 +7,10 @@
  */
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Request;
 use App\Student;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class StudentController extends Controller
 {
@@ -191,6 +193,110 @@ class StudentController extends Controller
     {
         return view('student.urltest');
     }
+    
+    //表单篇
+    public function request1( \Illuminate\Http\Request $request )
+    {
+        // 1.取值
+            //echo $request->input('name');
+            //echo $request->input('gender','未知');
+        //判断有没有
+        if ( $request->has('name') ) {
+            echo $request->input('name');
+        } else {
+            echo 'no parameter';
+        }
+
+        //取url中所有参数
+        $res = $request->all();
+        var_dump($res);
+
+        //2.判断请求类型
+
+        echo $request->method();
+        if ( $request->isMethod('GET') ) {
+            echo 'yes';
+        } else {
+            echo 'no';
+        }
+
+        $res = $request->ajax();
+        var_dump($res);
+
+        $res = $request->is('student/*');
+        var_dump($res);
+
+        echo $request->url();
+    }
+
+    public function session1(\Illuminate\Http\Request $request)
+    {
+        //1.http   request
+            //$request->session()->put('key1','value1');
+            //echo  $resuqest->session()->get('key1');
+
+        // session()
+//            session()->put('key2','value2');
+//            echo session()->get('key2');
+
+        //3.Session
+        //存储数据到session
+            //Session::put('key3','value3');
+        //获取session的值
+            //echo Session::get('key3');
+        //使用push 方法将值添加到session数组中
+
+        //取出session数据并删除
+//        $res = Session::pull('student','default');
+//        var_dump($res);
 
 
+        //取出所有的值
+            /*
+             *   $res = Session::all();
+                 echo '<pre>';
+                    print_r($res);
+             * */
+
+
+        //是否存在某一个值   has
+        //forget   删除session中指定key的值
+
+        //flush   清空所有session信息
+
+
+        //暂存数据，第一次有 后面 就消失了
+        Session::flash('key-zanshi','value-zanshi');
+
+    }
+
+    public function session2(\Illuminate\Http\Request $resuqest)
+    {
+           // echo Session::get('key-zanshi');
+
+        return Session::get('message','暂无信息');
+        //return  'session2';
+
+    }
+
+    public function response()
+    {
+        //相应json
+//        $data = [
+//            'errCode' => 0,
+//            'errMsg' => 'success',
+//            'data' => 'jackie'
+//        ];
+//
+//        return response()->json($data);
+
+        //重定向
+        //return redirect('session2');
+        //return redirect('session2')->with('message','快闪数据');
+
+        //action
+
+        //route
+
+    }
 }
